@@ -1,4 +1,4 @@
 {
     "python.pythonPath": "D:\\Miniconda\\envs\\ImageProcessing100\\python.exe",
-    "python.linting.enabled": false
+    "python.linting.enabled": true
 }

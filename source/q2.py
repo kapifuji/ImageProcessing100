@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-def BGR2gray(img):
+def BGR2Gray(img):
     r = img[:, :, 2].copy()
     g = img[:, :, 1].copy()
     b = img[:, :, 0].copy()
@@ -11,7 +11,7 @@ def BGR2gray(img):
 if __name__ == "__main__":
     img = cv2.imread(r"img/imori.jpg")
 
-    grayImg = BGR2gray(img)
+    grayImg = BGR2Gray(img)
 
     cv2.imshow("result", grayImg)
     cv2.waitKey(0)
