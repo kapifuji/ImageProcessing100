@@ -1,24 +1,31 @@
 import numpy as np
 import pytest
+from pathlib import Path
+import sys
+sys.path.append(str(Path(__file__).parent.parent))
+sys.path.append(str(Path(__file__).parent.parent / "source"))
 import source.q1 as q1
 
-@pytest.fixture()
-def inputImg():
-    inputImg = np.zeros((5, 5, 3), np.uint8)
-    inputImg[:, :, 0] = 50
-    inputImg[:, :, 1] = 100
-    inputImg[:, :, 2] = 150
-
-    return inputImg
 
 @pytest.fixture()
-def outputImg():
-    outputImg = np.zeros((5, 5, 3), np.uint8)
-    outputImg[:, :, 0] = 150
-    outputImg[:, :, 1] = 100
-    outputImg[:, :, 2] = 50
+def input_img():
+    input_img = np.zeros((5, 5, 3), np.uint8)
+    input_img[:, :, 0] = 50
+    input_img[:, :, 1] = 100
+    input_img[:, :, 2] = 150
 
-    return outputImg
+    return input_img
 
-def testBGR2RGB(inputImg, outputImg):
-    assert (q1.BGR2RGB(inputImg) == outputImg).all()
+
+@pytest.fixture()
+def output_img():
+    output_img = np.zeros((5, 5, 3), np.uint8)
+    output_img[:, :, 0] = 150
+    output_img[:, :, 1] = 100
+    output_img[:, :, 2] = 50
+
+    return output_img
+
+
+def test_Conv_BGR2RGB(input_img, output_img):
+    assert (q1.conv_BGR2RGB(input_img) == output_img).all()

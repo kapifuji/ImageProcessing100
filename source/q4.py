@@ -2,49 +2,52 @@ import cv2
 import numpy as np
 import q2
 
-def __getOtsuThreshold(grayImg) -> int:
-    pixelNum = grayImg.shape[0] * grayImg.shape[1]
-    # (threshold, Sb^2)
-    optThreshold = 0
-    maxSb2 = 0
+
+def _get_sb2(gray_img, threshold: int) -> float:
+    pixel_num = gray_img.shape[0] * gray_img.shape[1]
+    # しきい値で分離
+    c0_img = gray_img[gray_img < threshold]
+    c1_img = gray_img[gray_img >= threshold]
+    # 総画素数に対する割合
+    w0 = np.sum(c0_img >= 0) / pixel_num
+    w1 = np.sum(c1_img >= 0) / pixel_num
+    # 画素値の平均
+    m0 = c0_img.mean() if not len(c0_img) == 0 else 0.0
+    m1 = c1_img.mean() if not len(c1_img) == 0 else 0.0
+    # クラス間分散 Sb^2
+    return w0 * w1 * (m0 - m1)**2
+
+
+def _get_otsu_threshold(gray_img) -> int:
+    opt_threshold = 0
+    max_sb2 = 0
     # w0 * w1 * (M0 - M1) ^2 が最大になるような t が最適なしきい値
-    
-    for threshold in range(1, 257):
-        # しきい値で分離
-        c0Img = grayImg[grayImg < threshold]
-        c1Img = grayImg[grayImg >= threshold]
-        # 総画素数に対する割合
-        w0 = np.sum(c0Img >= 0) / pixelNum
-        w1 = np.sum(c1Img >= 0) / pixelNum
-        # 画素値の平均
-        M0 = c0Img.mean()
-        M1 = c1Img.mean()
-        # クラス間分散 Sb^2
-        Sb2 = w0 * w1 * (M0 - M1)**2
+    for threshold in range(1, 256):
+        sb2 = _get_sb2(gray_img, threshold)
+        if max_sb2 < sb2:
+            opt_threshold = threshold
+            max_sb2 = sb2
 
-        if maxSb2 < Sb2:
-            optThreshold = threshold
-            maxSb2 = Sb2
+    return opt_threshold
 
-    return optThreshold
 
-def BGR2OtsuBinary(img):
-    grayImg = q2.BGR2Gray(img)
+def conv_BGR2otsu_binary(img):
+    gray_img = q2.conv_BGR2gray(img)
 
-    threshold = __getOtsuThreshold(grayImg.copy())
+    threshold = _get_otsu_threshold(gray_img.copy())
 
-    grayImg[grayImg < threshold] = 0
-    grayImg[grayImg >= threshold] = 255
-    
-    return grayImg
+    gray_img[gray_img < threshold] = 0
+    gray_img[gray_img >= threshold] = 255
+
+    return gray_img
 
 
 if __name__ == "__main__":
     img = cv2.imread(r"img/imori.jpg")
 
-    binaryImg = BGR2OtsuBinary(img)
+    binary_img = conv_BGR2otsu_binary(img)
 
-    cv2.imshow("result", binaryImg)
+    cv2.imshow("result", binary_img)
     cv2.waitKey(0)
 
-    cv2.imwrite(r"img/answer_4.jpg", binaryImg)
+    cv2.imwrite(r"img/answer_4.jpg", binary_img)

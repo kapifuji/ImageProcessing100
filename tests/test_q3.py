@@ -1,56 +1,68 @@
 import numpy as np
 import pytest
+from pathlib import Path
+import sys
+sys.path.append(str(Path(__file__).parent.parent))
+sys.path.append(str(Path(__file__).parent.parent / "source"))
 import source.q3 as q3
 
-@pytest.fixture()
-def grayImg():
-    grayImg = np.zeros((2, 2), np.uint8)
-    grayImg[0, 0] = 50
-    grayImg[0, 1] = 50
-    grayImg[1, 0] = 150
-    grayImg[1, 1] = 150
-
-    return grayImg
 
 @pytest.fixture()
-def outputImg_128():
-    outputImg = np.zeros((2, 2), np.uint8)
-    outputImg[0, 0] = 0
-    outputImg[0, 1] = 0
-    outputImg[1, 0] = 255
-    outputImg[1, 1] = 255
+def gray_img():
+    gray_img = np.zeros((2, 2), np.uint8)
+    gray_img[0, 0] = 50
+    gray_img[0, 1] = 50
+    gray_img[1, 0] = 150
+    gray_img[1, 1] = 150
 
-    return outputImg
+    return gray_img
 
-@pytest.fixture()
-def outputImg_51():
-    outputImg = np.zeros((2, 2), np.uint8)
-    outputImg[0, 0] = 0
-    outputImg[0, 1] = 0
-    outputImg[1, 0] = 255
-    outputImg[1, 1] = 255
-
-    return outputImg
 
 @pytest.fixture()
-def outputImg_50():
-    outputImg = np.zeros((2, 2), np.uint8)
-    outputImg[0, 0] = 255
-    outputImg[0, 1] = 255
-    outputImg[1, 0] = 255
-    outputImg[1, 1] = 255
+def output_img_128():
+    output_img = np.zeros((2, 2), np.uint8)
+    output_img[0, 0] = 0
+    output_img[0, 1] = 0
+    output_img[1, 0] = 255
+    output_img[1, 1] = 255
 
-    return outputImg
+    return output_img
+
+
+@pytest.fixture()
+def output_img_51():
+    output_img = np.zeros((2, 2), np.uint8)
+    output_img[0, 0] = 0
+    output_img[0, 1] = 0
+    output_img[1, 0] = 255
+    output_img[1, 1] = 255
+
+    return output_img
+
+
+@pytest.fixture()
+def output_img_50():
+    output_img = np.zeros((2, 2), np.uint8)
+    output_img[0, 0] = 255
+    output_img[0, 1] = 255
+    output_img[1, 0] = 255
+    output_img[1, 1] = 255
+
+    return output_img
+
 
 @pytest.fixture(autouse=True)
-def setup(mocker, grayImg):
-    mocker.patch.object(q3, "BGR2Gray", mocker.Mock(return_value=grayImg))
+def setup(mocker, gray_img):
+    mocker.patch.object(q3.q2, "conv_BGR2gray", mocker.Mock(return_value=gray_img))
 
-def testBGR2BinaryTh128(outputImg_128):
-    assert (q3.BGR2Binary(np.zeros((2, 2), np.uint8), 128) == outputImg_128).all()
 
-def testBGR2BinaryTh50(outputImg_51):
-    assert (q3.BGR2Binary(np.zeros((2, 2), np.uint8), 51) == outputImg_51).all()
+def test_BGR2binary_th128(output_img_128):
+    assert (q3.conv_BGR2binary([0], 128) == output_img_128).all()
 
-def testBGR2BinaryTh51(outputImg_50):
-    assert (q3.BGR2Binary(np.zeros((2, 2), np.uint8), 50) == outputImg_50).all()
+
+def test_BGR2binary_th51(output_img_51):
+    assert (q3.conv_BGR2binary([0], 51) == output_img_51).all()
+
+
+def test_BGR2binary_th50(output_img_50):
+    assert (q3.conv_BGR2binary([0], 50) == output_img_50).all()
