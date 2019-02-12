@@ -6,3 +6,7 @@ install:
     - pip install opencv-python numpy pytest-mock
 script:
     - pytest
+    - python source/q1.py
+    - python source/q2.py
+    - python source/q3.py
+    - python source/q4.py
