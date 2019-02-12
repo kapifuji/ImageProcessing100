@@ -1,12 +1,9 @@
 language: python
 python:
+    - "3.5"
     - "3.6"
     - "3.7-dev"
 install:
     - pip install opencv-python numpy pytest-mock
 script:
     - pytest
-    - python source/q1.py
-    - python source/q2.py
-    - python source/q3.py
-    - python source/q4.py
