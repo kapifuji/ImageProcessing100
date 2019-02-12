@@ -1,14 +1,24 @@
 import numpy as np
-from source.q1 import BGR2RGB
+import pytest
+import source.q1 as q1
 
-def test_BGR2RGB():
+@pytest.fixture()
+def inputImg():
     inputImg = np.zeros((5, 5, 3), np.uint8)
     inputImg[:, :, 0] = 50
     inputImg[:, :, 1] = 100
     inputImg[:, :, 2] = 150
+
+    return inputImg
+
+@pytest.fixture()
+def outputImg():
     outputImg = np.zeros((5, 5, 3), np.uint8)
     outputImg[:, :, 0] = 150
     outputImg[:, :, 1] = 100
     outputImg[:, :, 2] = 50
 
-    assert (BGR2RGB(inputImg) == outputImg).all()
+    return outputImg
+
+def testBGR2RGB(inputImg, outputImg):
+    assert (q1.BGR2RGB(inputImg) == outputImg).all()

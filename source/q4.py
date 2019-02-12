@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from q2 import BGR2Gray
+import q2
 
 def __getOtsuThreshold(grayImg) -> int:
     pixelNum = grayImg.shape[0] * grayImg.shape[1]
@@ -29,7 +29,7 @@ def __getOtsuThreshold(grayImg) -> int:
     return optThreshold
 
 def BGR2OtsuBinary(img):
-    grayImg = BGR2Gray(img)
+    grayImg = q2.BGR2Gray(img)
 
     threshold = __getOtsuThreshold(grayImg.copy())
 

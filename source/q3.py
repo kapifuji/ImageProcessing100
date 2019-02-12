@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from q2 import BGR2Gray
+from source.q2 import BGR2Gray
 
 def BGR2Binary(img, threshold):
     grayImg = BGR2Gray(img)
