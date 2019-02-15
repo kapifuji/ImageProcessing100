@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-def apply_mean_pooling(bgr_img):
+def apply_mean_pooling_8x8(bgr_img):
     out_img = bgr_img.copy()
     for h in range(0, int(out_img.shape[0] / 8)):
         for w in range(0, int(out_img.shape[1] / 8)):
@@ -19,7 +19,7 @@ def apply_mean_pooling(bgr_img):
 if __name__ == "__main__":
     img = cv2.imread(r"img/imori.jpg")
 
-    img = apply_mean_pooling(img)
+    img = apply_mean_pooling_8x8(img)
 
     cv2.imshow("result", img)
     cv2.waitKey(0)

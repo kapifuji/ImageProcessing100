@@ -25,5 +25,5 @@ def out_img():
     return out_img
 
 
-def test_apply_mean_pooling(in_img, out_img):
-    assert (q7.apply_mean_pooling(in_img) == out_img).all()
+def test_apply_mean_pooling_8x8(in_img, out_img):
+    assert (q7.apply_mean_pooling_8x8(in_img) == out_img).all()
