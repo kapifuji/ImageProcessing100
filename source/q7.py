@@ -4,8 +4,8 @@ import numpy as np
 
 def apply_mean_pooling_8x8(bgr_img):
     out_img = bgr_img.copy()
-    for h in range(0, int(out_img.shape[0] / 8)):
-        for w in range(0, int(out_img.shape[1] / 8)):
+    for h in range(0, out_img.shape[0] // 8):
+        for w in range(0, out_img.shape[1] // 8):
             h_min = h * 8
             w_min = w * 8
             h_max = h * 8 + 8
