@@ -11,7 +11,7 @@ def conv_BGR2binary(img, threshold):
 
     return gray_img
 
-if __name__ == "__main__":
+def main():
     img = cv2.imread(r"img/imori.jpg")
 
     binary_img = conv_BGR2binary(img, 128)
@@ -20,3 +20,7 @@ if __name__ == "__main__":
     cv2.waitKey(0)
 
     cv2.imwrite(r"img/answer_3.jpg", binary_img)
+
+if __name__ == "__main__":
+    main()
+

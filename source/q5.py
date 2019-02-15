@@ -52,7 +52,8 @@ def inv_hue(hsv_img):
 
     return hsv
 
-if __name__ == "__main__":
+
+def main():
     img = cv2.imread(r"img/imori.jpg")
 
     hsv_img = conv_BGR2HSV(img)
@@ -63,3 +64,6 @@ if __name__ == "__main__":
     cv2.waitKey(0)
 
     cv2.imwrite(r"img/answer_5.jpg", img)
+
+if __name__ == "__main__":
+    main()

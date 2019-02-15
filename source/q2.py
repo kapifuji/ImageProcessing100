@@ -9,7 +9,8 @@ def conv_BGR2gray(img):
 
     return np.array(0.2126 * r + 0.7152 * g + 0.0722 * b, dtype="uint8")
 
-if __name__ == "__main__":
+
+def main():
     img = cv2.imread(r"img/imori.jpg")
 
     gray_img = conv_BGR2gray(img)
@@ -18,3 +19,6 @@ if __name__ == "__main__":
     cv2.waitKey(0)
 
     cv2.imwrite(r"img/answer_2.jpg", gray_img)
+
+if __name__ == "__main__":
+    main()

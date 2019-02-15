@@ -11,7 +11,8 @@ def apply_color_reduction(bgr_img):
 
     return out_img
 
-if __name__ == "__main__":
+
+def main():
     img = cv2.imread(r"img/imori.jpg")
 
     img = apply_color_reduction(img)
@@ -20,3 +21,6 @@ if __name__ == "__main__":
     cv2.waitKey(0)
 
     cv2.imwrite(r"img/answer_6.jpg", img)
+
+if __name__ == "__main__":
+    main()
