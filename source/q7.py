@@ -17,7 +17,7 @@ def apply_mean_pooling_8x8(bgr_img):
     return out_img
 
 
-def main():
+def _main():
     img = cv2.imread(r"img/imori.jpg")
 
     img = apply_mean_pooling_8x8(img)
@@ -28,4 +28,4 @@ def main():
     cv2.imwrite(r"img/answer_7.jpg", img)
 
 if __name__ == "__main__":
-    main()
+    _main()

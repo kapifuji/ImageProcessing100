@@ -42,7 +42,7 @@ def conv_BGR2otsu_binary(img):
     return gray_img
 
 
-def main():
+def _main():
     img = cv2.imread(r"img/imori.jpg")
 
     binary_img = conv_BGR2otsu_binary(img)
@@ -53,5 +53,4 @@ def main():
     cv2.imwrite(r"img/answer_4.jpg", binary_img)
 
 if __name__ == "__main__":
-    main()
-
+    _main()
