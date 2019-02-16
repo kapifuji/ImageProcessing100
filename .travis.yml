@@ -5,7 +5,7 @@ python:
     - "3.7-dev"
 install:
     - pip install opencv-python numpy
-    - pip install pytest>3.7 pytest-mock pytest-cov
+    - pip install pytest==4.2 pytest-mock pytest-cov
     - pip install codecov
 script:
     - pytest --cov=./source
