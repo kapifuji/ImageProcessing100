@@ -17,7 +17,7 @@ def apply_mean_pooling_8x8(bgr_img):
     return out_img
 
 
-def _main():
+def _main():  # pragma: no cover
     img = cv2.imread(r"img/imori.jpg")
 
     img = apply_mean_pooling_8x8(img)
@@ -27,5 +27,5 @@ def _main():
 
     cv2.imwrite(r"img/answer_7.jpg", img)
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     _main()

@@ -10,7 +10,7 @@ def conv_BGR2gray(img):
     return np.array(0.2126 * r + 0.7152 * g + 0.0722 * b, dtype="uint8")
 
 
-def _main():
+def _main():  # pragma: no cover
     img = cv2.imread(r"img/imori.jpg")
 
     gray_img = conv_BGR2gray(img)
@@ -20,5 +20,5 @@ def _main():
 
     cv2.imwrite(r"img/answer_2.jpg", gray_img)
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     _main()

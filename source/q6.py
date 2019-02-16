@@ -12,7 +12,7 @@ def apply_color_reduction(bgr_img):
     return out_img
 
 
-def _main():
+def _main():  # pragma: no cover
     img = cv2.imread(r"img/imori.jpg")
 
     img = apply_color_reduction(img)
@@ -22,5 +22,5 @@ def _main():
 
     cv2.imwrite(r"img/answer_6.jpg", img)
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     _main()

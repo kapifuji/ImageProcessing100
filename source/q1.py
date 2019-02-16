@@ -15,7 +15,7 @@ def conv_BGR2RGB(img):
     return out_img
 
 
-def _main():
+def _main():  # pragma: no cover
     img = cv2.imread(r"img/imori.jpg")
 
     out_img = conv_BGR2RGB(img)
@@ -25,5 +25,5 @@ def _main():
 
     cv2.imwrite(r"img/answer_1.jpg", out_img)
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     _main()

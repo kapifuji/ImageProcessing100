@@ -53,7 +53,7 @@ def inv_hue(hsv_img):
     return hsv
 
 
-def _main():
+def _main():  # pragma: no cover
     img = cv2.imread(r"img/imori.jpg")
 
     hsv_img = conv_BGR2HSV(img)
@@ -65,5 +65,5 @@ def _main():
 
     cv2.imwrite(r"img/answer_5.jpg", img)
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     _main()

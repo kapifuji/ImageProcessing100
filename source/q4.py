@@ -42,7 +42,7 @@ def conv_BGR2otsu_binary(img):
     return gray_img
 
 
-def _main():
+def _main():  # pragma: no cover
     img = cv2.imread(r"img/imori.jpg")
 
     binary_img = conv_BGR2otsu_binary(img)
@@ -52,5 +52,5 @@ def _main():
 
     cv2.imwrite(r"img/answer_4.jpg", binary_img)
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     _main()
