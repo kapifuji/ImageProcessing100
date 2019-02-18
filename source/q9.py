@@ -30,6 +30,8 @@ def get_filter_value(mat, kernel):
 
 
 def apply_filter(bgr_img, kernel):
+    if not kernel.shape[0] == kernel.shape[1]:
+        raise ValueError
     k_padding = kernel.shape[0] // 2
     out_img = bgr_img.copy()
     for _ in range(k_padding):
