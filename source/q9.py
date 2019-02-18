@@ -22,17 +22,19 @@ def delete_padding(img):
     return out_img
 
 
-def _get_gaussian_value(mat):
-    kernel = [
-        [1, 2, 1],
-        [2, 4, 2],
-        [1, 2, 1],
-    ]
+def get_filter_value(mat, kernel):
+    if not mat.shape == kernel.shape:
+        raise ValueError
 
-    return np.sum(kernel * mat) / 16
+    return np.sum(mat * kernel)
 
 
 def apply_gaussian_filter(bgr_img):
+    kernel = np.array([
+        [1/16, 2/16, 1/16],
+        [2/16, 4/16, 2/16],
+        [1/16, 2/16, 1/16],
+    ])
     tmp_img = add_padding(bgr_img)
     b = tmp_img[:, :, 0].copy()
     g = tmp_img[:, :, 1].copy()
@@ -40,9 +42,9 @@ def apply_gaussian_filter(bgr_img):
 
     for h in range(1, tmp_img.shape[0] - 1):
         for w in range(1, tmp_img.shape[1] - 1):
-            b[h, w] = _get_gaussian_value(b[h - 1: h + 2, w - 1: w + 2])
-            g[h, w] = _get_gaussian_value(g[h - 1: h + 2, w - 1: w + 2])
-            r[h, w] = _get_gaussian_value(r[h - 1: h + 2, w - 1: w + 2])
+            b[h, w] = get_filter_value(b[h - 1: h + 2, w - 1: w + 2], kernel)
+            g[h, w] = get_filter_value(g[h - 1: h + 2, w - 1: w + 2], kernel)
+            r[h, w] = get_filter_value(r[h - 1: h + 2, w - 1: w + 2], kernel)
 
     out_img = np.dstack((b, g, r))
 
