@@ -3,27 +3,31 @@ import numpy as np
 import q9
 
 
-def apply_median_filter(bgr_img):
-    tmp_img = q9.add_padding(bgr_img)
-    b = tmp_img[:, :, 0].copy()
-    g = tmp_img[:, :, 1].copy()
-    r = tmp_img[:, :, 2].copy()
+def apply_median_filter(bgr_img, k_size):
+    k_padding = k_size // 2
+    out_img = bgr_img.copy()
+    for _ in range(k_padding):
+        out_img = q9.add_padding(out_img)
 
-    for h in range(1, tmp_img.shape[0] - 1):
-        for w in range(1, tmp_img.shape[1] - 1):
-            b[h, w] = np.median(b[h - 1: h + 2, w - 1: w + 2])
-            g[h, w] = np.median(g[h - 1: h + 2, w - 1: w + 2])
-            r[h, w] = np.median(r[h - 1: h + 2, w - 1: w + 2])
+    for h in range(k_padding, out_img.shape[0] - k_padding):
+        for w in range(k_padding, out_img.shape[1] - k_padding):
+            for channel in range(out_img.shape[2]):
+                top = h - k_padding
+                bottom = h + k_padding + 1
+                left = w - k_padding
+                right = w + k_padding + 1
+                out_img[h, w, channel] = np.median(out_img[top: bottom, left: right, channel])
 
-    out_img = np.dstack((b, g, r))
+    for _ in range(k_padding):
+        out_img = q9.delete_padding(out_img)
 
-    return q9.delete_padding(out_img)
+    return out_img
 
 
 def _main():  # pragma: no cover
     img = cv2.imread(r"img/imori_noise.jpg")
 
-    img = apply_median_filter(img)
+    img = apply_median_filter(img, 3)
 
     cv2.imshow("result", img)
     cv2.waitKey(0)
