@@ -33,19 +33,20 @@ def _get_gaussian_value(mat):
 
 
 def apply_gaussian_filter(bgr_img):
-    b = _add_padding(bgr_img[:, :, 0].copy())
-    g = _add_padding(bgr_img[:, :, 1].copy())
-    r = _add_padding(bgr_img[:, :, 2].copy())
+    tmp_img = _add_padding(bgr_img)
+    b = tmp_img[:, :, 0].copy()
+    g = tmp_img[:, :, 1].copy()
+    r = tmp_img[:, :, 2].copy()
 
-    for h in range(1, bgr_img.shape[0] - 1):
-        for w in range(1, bgr_img.shape[1] - 1):
+    for h in range(1, tmp_img.shape[0] - 1):
+        for w in range(1, tmp_img.shape[1] - 1):
             b[h, w] = _get_gaussian_value(b[h - 1: h + 2, w - 1: w + 2])
             g[h, w] = _get_gaussian_value(g[h - 1: h + 2, w - 1: w + 2])
             r[h, w] = _get_gaussian_value(r[h - 1: h + 2, w - 1: w + 2])
 
-    out_img = np.dstack((_delete_padding(b), _delete_padding(g), _delete_padding(r)))
+    out_img = np.dstack((b, g, r))
 
-    return out_img
+    return _delete_padding(out_img)
 
 
 def _main():  # pragma: no cover
