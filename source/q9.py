@@ -29,32 +29,38 @@ def get_filter_value(mat, kernel):
     return np.sum(mat * kernel)
 
 
-def apply_gaussian_filter(bgr_img):
-    kernel = np.array([
-        [1/16, 2/16, 1/16],
-        [2/16, 4/16, 2/16],
-        [1/16, 2/16, 1/16],
-    ])
-    tmp_img = add_padding(bgr_img)
-    b = tmp_img[:, :, 0].copy()
-    g = tmp_img[:, :, 1].copy()
-    r = tmp_img[:, :, 2].copy()
+def apply_filter(bgr_img, kernel):
+    k_padding = kernel.shape[0] // 2
+    out_img = bgr_img.copy()
+    for _ in range(k_padding):
+        out_img = add_padding(out_img)
 
-    for h in range(1, tmp_img.shape[0] - 1):
-        for w in range(1, tmp_img.shape[1] - 1):
-            b[h, w] = get_filter_value(b[h - 1: h + 2, w - 1: w + 2], kernel)
-            g[h, w] = get_filter_value(g[h - 1: h + 2, w - 1: w + 2], kernel)
-            r[h, w] = get_filter_value(r[h - 1: h + 2, w - 1: w + 2], kernel)
+    for h in range(k_padding, out_img.shape[0] - k_padding):
+        for w in range(k_padding, out_img.shape[1] - k_padding):
+            for channel in range(out_img.shape[2]):
+                top = h - k_padding
+                bottom = h + k_padding + 1
+                left = w - k_padding
+                right = w + k_padding + 1
+                out_img[h, w, channel] = get_filter_value(
+                    out_img[top: bottom, left: right, channel], kernel)
 
-    out_img = np.dstack((b, g, r))
+    for _ in range(kernel.shape[0] // 2):
+        out_img = delete_padding(out_img)
 
-    return delete_padding(out_img)
+    return out_img
 
 
 def _main():  # pragma: no cover
     img = cv2.imread(r"img/imori_noise.jpg")
 
-    img = apply_gaussian_filter(img)
+    kernel = np.array([
+        [1/16, 2/16, 1/16],
+        [2/16, 4/16, 2/16],
+        [1/16, 2/16, 1/16],
+    ])
+
+    img = apply_filter(img, kernel)
 
     cv2.imshow("result", img)
     cv2.waitKey(0)
