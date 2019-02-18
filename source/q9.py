@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-def _add_padding(img, val=0):
+def add_padding(img, val=0):
     out_img = img.copy()
     out_img = np.insert(out_img, 0, val, 0)
     out_img = np.insert(out_img, -1, val, 0)
@@ -12,7 +12,7 @@ def _add_padding(img, val=0):
     return out_img
 
 
-def _delete_padding(img):
+def delete_padding(img):
     out_img = img.copy()
     out_img = np.delete(out_img, 0, 0)
     out_img = np.delete(out_img, -1, 0)
@@ -33,7 +33,7 @@ def _get_gaussian_value(mat):
 
 
 def apply_gaussian_filter(bgr_img):
-    tmp_img = _add_padding(bgr_img)
+    tmp_img = add_padding(bgr_img)
     b = tmp_img[:, :, 0].copy()
     g = tmp_img[:, :, 1].copy()
     r = tmp_img[:, :, 2].copy()
@@ -46,7 +46,7 @@ def apply_gaussian_filter(bgr_img):
 
     out_img = np.dstack((b, g, r))
 
-    return _delete_padding(out_img)
+    return delete_padding(out_img)
 
 
 def _main():  # pragma: no cover
