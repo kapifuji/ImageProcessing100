@@ -56,13 +56,13 @@ def apply_filter(bgr_img, kernel):
 def _main():  # pragma: no cover
     img = cv2.imread(r"img/imori_noise.jpg")
 
-    kernel = np.array([
+    gaussian_kernel = np.array([
         [1/16, 2/16, 1/16],
         [2/16, 4/16, 2/16],
         [1/16, 2/16, 1/16],
     ])
 
-    img = apply_filter(img, kernel)
+    img = apply_filter(img, gaussian_kernel)
 
     cv2.imshow("result", img)
     cv2.waitKey(0)
