@@ -24,7 +24,7 @@ def delete_padding(img):
 
 
 def get_filter_value(mat, kernel):
-    if not mat.shape == kernel.shape:
+    if not kernel.shape[0] == kernel.shape[1]:
         raise ValueError("カネールは正方行列でなければなりません。")
 
     try:
@@ -36,7 +36,7 @@ def get_filter_value(mat, kernel):
 
 def apply_filter(bgr_img, kernel):
     if not kernel.shape[0] == kernel.shape[1]:
-        raise ValueError
+        raise ValueError("カネールは正方行列でなければなりません。")
     k_padding = kernel.shape[0] // 2
     out_img = bgr_img.copy()
     for _ in range(k_padding):
