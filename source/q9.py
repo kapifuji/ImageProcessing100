@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import traceback
 
 
 def add_padding(img, val=0):
@@ -24,9 +25,13 @@ def delete_padding(img):
 
 def get_filter_value(mat, kernel):
     if not mat.shape == kernel.shape:
-        raise ValueError
+        raise ValueError("カネールは正方行列でなければなりません。")
 
-    return np.sum(mat * kernel)
+    try:
+        return np.sum(mat * kernel)
+    except ValueError:
+        traceback.print_exc()
+        raise
 
 
 def apply_filter(bgr_img, kernel):
