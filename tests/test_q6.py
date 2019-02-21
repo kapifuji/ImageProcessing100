@@ -38,5 +38,5 @@ def out_img():
     return out_img
 
 
-def test_apply_color_reduction(in_img, out_img):
+def test_apply_color_reduction_border(in_img, out_img):
     assert (q6.apply_color_reduction(in_img) == out_img).all()
