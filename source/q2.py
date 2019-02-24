@@ -3,6 +3,18 @@ import numpy as np
 
 
 def conv_BGR2gray(img):
+    """BGR画像をグレー画像に変換します。
+
+    Arguments:
+        img {numpy.ndarray} -- BGR画像
+
+    Returns:
+        [numpy.ndarray] -- グレー画像
+
+    Notes:
+        ndarrayのdtypeは入力画像と同じものを返します。
+    """
+
     r = img[:, :, 2].copy()
     g = img[:, :, 1].copy()
     b = img[:, :, 0].copy()
