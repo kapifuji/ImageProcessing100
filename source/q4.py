@@ -4,6 +4,16 @@ import q2
 
 
 def _get_sb2(gray_img, threshold: int) -> float:
+    """クラス間分散を返します。
+
+    Arguments:
+        gray_img {numpy.ndarray} -- グレー画像（1ch）
+        threshold {int} -- しきい値
+
+    Returns:
+        float -- クラス間分散
+    """
+
     pixel_num = gray_img.shape[0] * gray_img.shape[1]
     # しきい値で分離
     c0_img = gray_img[gray_img < threshold]
@@ -19,6 +29,15 @@ def _get_sb2(gray_img, threshold: int) -> float:
 
 
 def _get_otsu_threshold(gray_img) -> int:
+    """大津の二値化によるしきい値を返します。
+
+    Arguments:
+        gray_img {numpy.ndarray} -- グレー画像（1ch）
+
+    Returns:
+        int -- しきい値
+    """
+
     opt_threshold = 0
     max_sb2 = 0
     # w0 * w1 * (M0 - M1) ^2 が最大になるような t が最適なしきい値
@@ -32,6 +51,15 @@ def _get_otsu_threshold(gray_img) -> int:
 
 
 def conv_BGR2otsu_binary(img):
+    """BGR画像を大津の二値化により2値画像に変換します。
+
+    Arguments:
+        img {numpy.ndarray} -- BGR画像（3ch）
+
+    Returns:
+        numpy.ndarray -- 2値画像（1ch）
+    """
+
     gray_img = q2.conv_BGR2gray(img)
 
     threshold = _get_otsu_threshold(gray_img.copy())
