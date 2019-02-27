@@ -4,6 +4,18 @@ import traceback
 
 
 def add_padding(img, val=0):
+    """画像の周囲を指定した値でパディングします。
+
+    Arguments:
+        img {numpy.ndarray} -- 画像（3ch）
+
+    Keyword Arguments:
+        val {int} -- パディングの値 (default: {0})
+
+    Returns:
+        numpy.ndarray -- パディング後の画像（3ch）
+    """
+
     out_img = img.copy()
     out_img = np.insert(out_img, 0, val, 0)
     out_img = np.insert(out_img, -1, val, 0)
@@ -14,6 +26,15 @@ def add_padding(img, val=0):
 
 
 def delete_padding(img):
+    """パディングを取り消します。
+
+    Arguments:
+        img {numpy.ndarray} -- 画像（3ch）
+
+    Returns:
+        numpy.ndarray -- パディング取り消し後の画像（3ch）
+    """
+
     out_img = img.copy()
     out_img = np.delete(out_img, 0, 0)
     out_img = np.delete(out_img, -1, 0)
@@ -23,7 +44,22 @@ def delete_padding(img):
     return out_img
 
 
-def get_filter_value(mat, kernel):
+def get_filter_value(mat, kernel) -> float:
+    """行列にフィルタを適用した結果の値を取得します。
+
+    Arguments:
+        mat {numpy.ndarray} -- 行列
+        kernel {numpy.ndarray} -- カーネル
+
+    Raises:
+        ValueError
+        -- カーネルが正方行列でないとき
+        -- 入力された行列とカーネルの大きさが違うとき
+
+    Returns:
+        float -- フィルタ適用結果の値
+    """
+
     if not kernel.shape[0] == kernel.shape[1]:
         raise ValueError("カネールは正方行列でなければなりません。")
 
@@ -35,6 +71,22 @@ def get_filter_value(mat, kernel):
 
 
 def apply_filter(bgr_img, kernel):
+    """画像にフィルタを適用します。
+
+    Arguments:
+        bgr_img {numpy.ndarray} -- BGR画像（3ch）
+        kernel {numpy.ndarray} -- カーネル
+
+    Raises:
+        ValueError -- カーネルが正方行列でないとき
+
+    Returns:
+        numpy.ndarray -- フィルタ適用後画像（3ch）
+
+    Notes:
+        入力はRGB画像でも正常に動作します。
+    """
+
     if not kernel.shape[0] == kernel.shape[1]:
         raise ValueError("カネールは正方行列でなければなりません。")
     k_padding = kernel.shape[0] // 2
