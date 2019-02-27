@@ -1,6 +1,8 @@
 import cv2
 import numpy as np
 import traceback
+import functools
+from typing import Callable
 
 
 def add_padding(img, val=0):
@@ -70,15 +72,13 @@ def get_filter_value(mat, kernel) -> float:
         raise
 
 
-def apply_filter(bgr_img, kernel):
+def apply_filter(bgr_img, k_size, func):
     """画像にフィルタを適用します。
 
     Arguments:
         bgr_img {numpy.ndarray} -- BGR画像（3ch）
-        kernel {numpy.ndarray} -- カーネル
-
-    Raises:
-        ValueError -- カーネルが正方行列でないとき
+        k_size {numpy.ndarray} -- カーネルサイズ（3x3なら3）
+        func {Callable[[numpy.ndarray], float]} -- フィルタ適用関数
 
     Returns:
         numpy.ndarray -- フィルタ適用後画像（3ch）
@@ -87,14 +87,12 @@ def apply_filter(bgr_img, kernel):
         入力はRGB画像、グレー画像でも正常に動作します。
     """
 
-    if not kernel.shape[0] == kernel.shape[1]:
-        raise ValueError("カネールは正方行列でなければなりません。")
-    k_padding = kernel.shape[0] // 2
+    k_padding = k_size // 2
     out_img = bgr_img.copy()
+    channel_num = out_img.shape[2] if out_img.ndim == 3 else 1
+
     for _ in range(k_padding):
         out_img = add_padding(out_img)
-
-    channel_num = out_img.shape[2] if out_img.ndim == 3 else 1
 
     for h in range(k_padding, out_img.shape[0] - k_padding):
         for w in range(k_padding, out_img.shape[1] - k_padding):
@@ -104,13 +102,12 @@ def apply_filter(bgr_img, kernel):
                 left = w - k_padding
                 right = w + k_padding + 1
                 if channel_num == 1:
-                    out_img[h, w] = get_filter_value(
-                        out_img[top: bottom, left: right], kernel)
+                    out_img[h, w] = func(out_img[top: bottom, left: right])
                 else:
-                    out_img[h, w, channel] = get_filter_value(
-                        out_img[top: bottom, left: right, channel], kernel)
+                    out_img[h, w, channel] = func(
+                        out_img[top: bottom, left: right, channel])
 
-    for _ in range(kernel.shape[0] // 2):
+    for _ in range(k_padding):
         out_img = delete_padding(out_img)
 
     return out_img
@@ -125,7 +122,8 @@ def _main():  # pragma: no cover
         [1/16, 2/16, 1/16],
     ])
 
-    img = apply_filter(img, gaussian_kernel)
+    img = apply_filter(img, gaussian_kernel.shape[0], functools.partial(
+            get_filter_value, gaussian_kernel))
 
     cv2.imshow("result", img)
     cv2.waitKey(0)
