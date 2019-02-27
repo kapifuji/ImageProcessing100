@@ -4,6 +4,19 @@ import q9
 
 
 def apply_smoothing_filter(bgr_img, k_size):
+    """画像に平滑化フィルタを適用します。
+
+    Arguments:
+        bgr_img {numpy.ndarray} -- BGR画像（3ch）
+        kernel {int} -- カーネルサイズ
+
+    Returns:
+        numpy.ndarray -- フィルタ適用後画像（3ch）
+
+    Notes:
+        入力はRGB画像でも正常に動作します。
+    """
+
     k_padding = k_size // 2
     out_img = bgr_img.copy()
     for _ in range(k_padding):
