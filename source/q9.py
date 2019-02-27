@@ -7,13 +7,13 @@ def add_padding(img, val=0):
     """画像の周囲を指定した値でパディングします。
 
     Arguments:
-        img {numpy.ndarray} -- 画像（3ch）
+        img {numpy.ndarray} -- 画像
 
     Keyword Arguments:
         val {int} -- パディングの値 (default: {0})
 
     Returns:
-        numpy.ndarray -- パディング後の画像（3ch）
+        numpy.ndarray -- パディング後の画像
     """
 
     out_img = img.copy()
@@ -29,10 +29,10 @@ def delete_padding(img):
     """パディングを取り消します。
 
     Arguments:
-        img {numpy.ndarray} -- 画像（3ch）
+        img {numpy.ndarray} -- 画像
 
     Returns:
-        numpy.ndarray -- パディング取り消し後の画像（3ch）
+        numpy.ndarray -- パディング取り消し後の画像
     """
 
     out_img = img.copy()
@@ -84,7 +84,7 @@ def apply_filter(bgr_img, kernel):
         numpy.ndarray -- フィルタ適用後画像（3ch）
 
     Notes:
-        入力はRGB画像でも正常に動作します。
+        入力はRGB画像、グレー画像でも正常に動作します。
     """
 
     if not kernel.shape[0] == kernel.shape[1]:
@@ -94,15 +94,21 @@ def apply_filter(bgr_img, kernel):
     for _ in range(k_padding):
         out_img = add_padding(out_img)
 
+    channel_num = out_img.shape[2] if out_img.ndim == 3 else 1
+
     for h in range(k_padding, out_img.shape[0] - k_padding):
         for w in range(k_padding, out_img.shape[1] - k_padding):
-            for channel in range(out_img.shape[2]):
+            for channel in range(channel_num):
                 top = h - k_padding
                 bottom = h + k_padding + 1
                 left = w - k_padding
                 right = w + k_padding + 1
-                out_img[h, w, channel] = get_filter_value(
-                    out_img[top: bottom, left: right, channel], kernel)
+                if channel_num == 1:
+                    out_img[h, w] = get_filter_value(
+                        out_img[top: bottom, left: right], kernel)
+                else:
+                    out_img[h, w, channel] = get_filter_value(
+                        out_img[top: bottom, left: right, channel], kernel)
 
     for _ in range(kernel.shape[0] // 2):
         out_img = delete_padding(out_img)
