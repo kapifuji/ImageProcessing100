@@ -3,6 +3,15 @@ import numpy as np
 
 
 def conv_BGR2HSV(bgr_img):
+    """BGR画像をHSV画像に変換します。
+
+    Arguments:
+        bgr_img {numpy.ndarray} -- BGR画像（3ch）
+
+    Returns:
+        numpy.ndarray -- HSV画像（3ch）
+    """
+
     bgr = bgr_img.astype(np.float32).copy() / 255
     b = bgr[:, :, 0]
     g = bgr[:, :, 1]
@@ -28,6 +37,15 @@ def conv_BGR2HSV(bgr_img):
 
 
 def conv_HSV2BGR(hsv_img):
+    """HSV画像をBGR画像に変換します。
+
+    Arguments:
+        hsv_img {numpy.ndarray} -- HSV画像（3ch）
+
+    Returns:
+        numpy.ndarray -- BGR画像（3ch）
+    """
+
     V = hsv_img[:, :, 2]
     C = hsv_img[:, :, 1]
     H_p = hsv_img[:, :, 0] / 60
@@ -47,6 +65,15 @@ def conv_HSV2BGR(hsv_img):
 
 
 def inv_hue(hsv_img):
+    """HSV画像の色相（Value）を反転します。
+
+    Arguments:
+        hsv_img {numpy.ndarray} -- HSV画像（3ch）
+
+    Returns:
+        numpy.ndarray -- 色相反転後のHSV画像（3ch）
+    """
+
     hsv = hsv_img.copy()
     hsv[:, :, 0] = (hsv[:, :, 0] + 180) % 360
 
