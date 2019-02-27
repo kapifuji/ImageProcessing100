@@ -47,13 +47,6 @@ def test_get_filter_value():
     assert q9.get_filter_value(mat, kernel) == 32
 
 
-def test_apply_filter_kernel_is_not_square():
-    in_img = np.zeros((10, 10, 3), np.uint8)
-    kernel = np.zeros((3, 4, 3), np.uint8)
-    with pytest.raises(ValueError):
-        q9.apply_filter(in_img, kernel)
-
-
 def test_apply_filter(mocker):
     in_img = np.zeros((3, 3, 3), np.uint8)
     kernel = np.array([
@@ -66,9 +59,6 @@ def test_apply_filter(mocker):
     add_pad_mock = mocker.Mock(return_value=add_pad_img)
     mocker.patch.object(q9, "add_padding", add_pad_mock)
 
-    get_fil_mock = mocker.Mock(return_value=5)
-    mocker.patch.object(q9, "get_filter_value", get_fil_mock)
-
     del_pad_img = np.zeros((3, 3, 3), np.uint8)
     del_pad_img[:, :, :] = 5
     del_pad_mock = mocker.Mock(return_value=del_pad_img)    
@@ -76,7 +66,8 @@ def test_apply_filter(mocker):
 
     out_img = np.zeros((3, 3, 3), np.uint8)
     out_img[:, :, :] = 5
-    assert (q9.apply_filter(in_img, kernel) == out_img).all()
+    assert (q9.apply_filter(in_img, kernel.shape[0], mocker.Mock(
+            return_value=5)) == out_img).all()
 
     assert add_pad_mock.call_count == 1
     assert (add_pad_mock.call_args_list[0][0] == in_img).all()
