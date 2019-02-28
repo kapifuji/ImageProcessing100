@@ -2,7 +2,6 @@ import cv2
 import numpy as np
 import traceback
 import functools
-from typing import Callable
 
 
 def add_padding(img, val=0):
