@@ -122,7 +122,7 @@ def _main():  # pragma: no cover
     ])
 
     img = apply_filter(img, gaussian_kernel.shape[0], functools.partial(
-            get_filter_value, gaussian_kernel))
+            get_filter_value, kernel=gaussian_kernel))
 
     cv2.imshow("result", img)
     cv2.waitKey(0)
