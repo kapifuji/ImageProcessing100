@@ -14,7 +14,7 @@ def _main():  # pragma: no cover
     ])
 
     img = q9.apply_filter(img, motion_kernel.shape[0], functools.partial(
-            q9.get_filter_value, motion_kernel))
+            q9.get_filter_value, kernel=motion_kernel))
 
     cv2.imshow("result", img)
     cv2.waitKey(0)
