@@ -109,6 +109,9 @@ def apply_filter(bgr_img, k_size, func):
     for _ in range(k_padding):
         out_img = delete_padding(out_img)
 
+    out_img[out_img < 0] = 0
+    out_img[out_img > 255] = 255
+
     return out_img
 
 
