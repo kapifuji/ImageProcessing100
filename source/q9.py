@@ -78,6 +78,7 @@ def fix_overflow(img):
 
     return out_img
 
+
 def apply_filter(img, k_size, fil_func):
     """画像にフィルタを適用します。
 
