@@ -1,9 +1,5 @@
 import numpy as np
 import pytest
-from pathlib import Path
-import sys
-sys.path.append(str(Path(__file__).parent.parent))
-sys.path.append(str(Path(__file__).parent.parent / "source"))
 import source.q7 as q7
 
 
