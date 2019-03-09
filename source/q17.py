@@ -5,7 +5,7 @@ import q9
 
 
 def _main():  # pragma: no cover
-    img = cv2.imread(r"img/imori.jpg")
+    img = cv2.imread(r"img/imori.jpg", 0)
 
     laplacian_kernel = np.array([
         [0, 1, 0],
