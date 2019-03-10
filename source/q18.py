@@ -7,14 +7,14 @@ import q9
 def _main():  # pragma: no cover
     img = cv2.imread(r"img/imori.jpg", 0)
 
-    laplacian_kernel = np.array([
+    emboss_kernel = np.array([
         [-2, -1, 0],
         [-1, 1, 1],
         [0, 1, 2],
     ])
 
-    img = q9.apply_filter(img, laplacian_kernel.shape[0], functools.partial(
-            q9.get_filter_value, kernel=laplacian_kernel))
+    img = q9.apply_filter(img, emboss_kernel.shape[0], functools.partial(
+            q9.get_filter_value, kernel=emboss_kernel))
 
     cv2.imshow("result", img)
     cv2.waitKey(0)
