@@ -4,7 +4,7 @@ python:
     - "3.6"
     - "3.7-dev"
 install:
-    - pip install opencv-python numpy
+    - pip install opencv-python numpy matplotlib
     - pip install pytest==4.2 pytest-mock pytest-cov
     - pip install codecov
 script:
