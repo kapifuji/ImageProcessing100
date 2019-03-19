@@ -2,7 +2,20 @@ import cv2
 import numpy as np
 
 
-def apply_gamma_correction(img, c: float, gamma: float = 2.2):
+def apply_gamma_correction(img, gamma: float = 2.2, c: float = 1.0):
+    """画像にガンマ補正を適用します。
+
+    Arguments:
+        img {numpy.ndarray} -- 元画像
+
+    Keyword Arguments:
+        gamma {float} -- ガンマ値 (default: {2.2})
+        c {float} -- 定数 (default: {1.0})
+
+    Returns:
+        numpy.ndarray -- 適用後画像
+    """
+
     out_img = img.copy().astype(np.float)
 
     out_img /= 255
@@ -17,7 +30,7 @@ def apply_gamma_correction(img, c: float, gamma: float = 2.2):
 def _main():  # pragma: no cover
     img = cv2.imread(r"img/imori_gamma.jpg")
 
-    img = apply_gamma_correction(img, 1)
+    img = apply_gamma_correction(img)
 
     cv2.imshow("result", img)
     cv2.waitKey(0)
