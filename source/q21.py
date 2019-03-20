@@ -15,16 +15,16 @@ def apply_gscale_transform(img, r_min: int, r_max: int):
         numpy.ndarray -- 変換適用後画像
     """
 
+    pre_r_min = img.min()
+    pre_r_max = img.max()
+
     out_img = img.copy()
 
-    pre_r_min = out_img.min()
-    pre_r_max = out_img.max()
-
-    out_img[out_img < pre_r_min] = r_min
-    out_img[pre_r_max < out_img] = r_max
-    index = (pre_r_min <= out_img) & (out_img <= pre_r_max)
+    out_img[img < pre_r_min] = r_min
+    out_img[pre_r_max < img] = r_max
+    index = (pre_r_min <= img) & (img <= pre_r_max)
     out_img[index] = (r_max - r_min) / (pre_r_max - pre_r_min) * \
-        (out_img[index] - pre_r_min) + r_min
+        (img[index] - pre_r_min) + r_min
 
     return out_img
 
